@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>reveal.js - The HTML Presentation Framework</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+        <section>
+        <h1>A .NET Dev's</h1>
+        <h1>Dive into Riak</h1>
+        <p>
+        <br/>
+        </p>
+        <p>by OJ Reeves</p>
+        <p>@TheColonial</p>
+        <p>
+        <img style="border: 0" src="img/basho-logo.png">&nbsp; &nbsp;<img src="img/riak-transparent-small.png" style="line-height: 1.2em; letter-spacing: -0.02em; border: 0px;">
+        <span style="line-height: 1.2em; letter-spacing: -0.02em;">
+        </span>
+        </p>
+
+        </section>
+        <section>
+        <h2>Agenda</h2>
+        <div style="text-align: left;">
+          <br/>
+        </div>
+        <div style="text-align: left;">
+          <br/>
+        </div>
+        <div style="text-align: center; margin-left: 50px">
+          <h3>
+              What is Riak?
+          </h3>
+          <h3>
+              Riak and .NET
+          </h3>
+          <h3>
+              Riak on Azure
+          </h3>
+        </div>
+
+
+        </section>
+        <section>
+        <h2>We will not</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div style="text-align: left;">Poke fun at other NoSQL solutions ...</div>
+        <div style="text-align: left;">
+          <br/>
+        </div>
+        <div style="text-align: left;">
+          <br/>
+        </div>
+        <div style="text-align: left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... imply that NoSQL &gt; SQL ...</div>
+        <div style="text-align: left;">
+          <br/>
+        </div>
+        <div style="text-align: left;">
+          <br/>
+        </div>
+        <div style="text-align: right;">... suggest you use Riak for ALL THA THINGZ&nbsp;</div>
+        </section>
+        <section>
+        <h2>Get Comfy!</h2>
+        <div>
+          <br/>
+        </div>
+        <div>There's a lot of information</div>
+        <div>coming your way</div>
+        <div>
+          <img src="img/far_side_brain_is_full.jpg">
+          <br/>
+        </div>
+        </section>
+        </section>
+        <section>
+        <section>
+        <h2>What is Riak?</h2>
+        <div>
+          <br/>
+        </div>
+        <div>It's a database!</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">A key / value database.</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Most importantly ...</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">... it's a <b>
+            <i>distributed system.</i>
+          </b>
+        </div>
+
+
+        </section>
+        <section>
+        <h2>What does it mean?</h2>
+        <div>
+          <br/>
+        </div>
+        <div>We don't have ACID guarantees:</div>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>Atomicity</li>
+            <li>Consistency</li>
+            <li>Isolation</li>
+            <li>Durability</li>
+          </ul>
+          <div style="text-align: center;">
+            <br/>
+          </div>
+        </div>
+        </section>
+        <section>
+        <h2>What does it mean?</h2>
+        <div>
+          <div style="font-family: 'Open Sans', sans-serif; font-size: 36px; font-style: normal; font-variant: normal; line-height: 43.1875px;">
+            <br class="Apple-interchange-newline">Instead, we have BASE:</div>
+          <div style="font-family: 'Open Sans', sans-serif; font-size: 36px; font-style: normal; font-variant: normal; line-height: 43.1875px;">
+            <br/>
+          </div>
+          <div style="font-family: 'Open Sans', sans-serif; font-size: 36px; font-style: normal; font-variant: normal; line-height: 43.1875px;">
+            <ul>
+              <li>Basically Available</li>
+              <li>Soft State</li>
+              <li>Eventually Consistent</li>
+            </ul>
+            <div style="text-align: center;">
+              <br/>
+            </div>
+          </div>
+          <div class="fragment" style="text-align: center;">It's not as bad as it sounds!</div>
+        </div>
+
+
+        </section>
+        <section>
+        <h2>What you're thinking..</h2>
+        <div>
+          <img src="img/3tnwjv.jpg" height="80%">
+          <br/>
+        </div>
+        </section>
+        </section>
+        <section>
+        <section>
+        <h2>CAP Summarised</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+        </div>
+        <div>
+          <i>
+            <u>C</u>onsistency</i>
+        </div>
+        <div>
+          <i>
+            <br/>
+          </i>
+        </div>
+        <div>
+          <i>
+            <u>A</u>vailability</i>
+        </div>
+        <div>
+          <i>
+            <br/>
+          </i>
+        </div>
+        <div>
+          <i>
+            <u>P</u>artition Tolerance</i>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Pick <b>two.</b>
+        </div>
+        </section>
+
+        <section>
+        <h2>It turns Out</h2>
+        <div>
+          <br/>
+        </div>
+        <div>You can't really sacrifice P.</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Riak chooses P ...</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">... and let's you tune between C and A.</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">More on this later.</div>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <br/>
+        </div>
+        </section>
+        </section>
+
+        <section>
+
+        <section>
+        <h2>Operating Riak</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          Remember: Riak is <strong>clustered</strong><br/>
+          Clusters are <em>hard</em>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">Ex-Akamai Engineers</li>
+            <li class="fragment">Hated the 3am calls</li>
+            <li class="fragment">Wanted a solution</li>
+          </ul>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div style="text-align: center;" class="fragment">
+          <div>Riak is</div>
+          <div class="fragment grow">
+            <b>Operationally Boring</b>
+          </div>
+        </div>
+        </section>
+
+        <section>
+        <h2>Operationally Boring?</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">Predictable performance</li>
+            <li class="fragment">Predictable scaling</li>
+            <li class="fragment">Loss of <em>massive</em> infra required before A suffers</li>
+          </ul>
+        </div>
+        <div>
+          <br/>
+        </div>
+        </section>
+
+        <section>
+        <h2>Managing Riak</h2>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Riak Control</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Riaknostic<br/>
+        http://riaknostic.basho.com/</div>
+        </section>
+
+        <section data-state="soothe">
+        <h2>DEMO</h2>
+        <div>
+          <br/>
+        </div>
+        <div><h3>Building a Cluster + Riak Control</h3></div>
+        </section>
+
+        </section>
+
+        <section>
+        <section>
+        <h2>Riak Basics</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">Masterless</li>
+            <li class="fragment">Fault tolerant</li>
+            <li class="fragment">Highly Available</li>
+            <li class="fragment">Eventually consistent</li>
+            <li class="fragment">Doesn't lose your data!</li>
+            <li class="fragment">Multiple storage engines</li>
+            <li class="fragment">Written in Erlang ...</li>
+            <li class="fragment">... with some bits in C.</li>
+          </ul>
+        </div>
+        </section>
+        <section>
+        <h2>Riak Basics</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>Values identified by Bucket / Key</li>
+            <li class="fragment">Schemaless</li>
+            <li class="fragment">Store anything</li>
+            <li class="fragment">Links + Link Walking</li>
+            <li class="fragment">Map/Reduce</li>
+            <li class="fragment">Secondary Indexes (LevelDB)</li>
+            <li class="fragment">Pre/Post commit hooks</li>
+            <li class="fragment">Riak Search (Full Text)</li>
+          </ul>
+        </div>
+        </section>
+        <section>
+        <h2>Based on Dynamo</h2>
+        <div>
+          <br/>
+        </div>
+        <div>http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div>Amazing paper</div>
+        <div>
+          <br/>
+        </div>
+        <div>Riak has heritage in Dynamo</div>
+        </section>
+        <section>
+        <h2>Dynamo Basics</h2>
+        <div>
+          <br/>
+        </div>
+        <div>The 3 parameters:</div>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>N - number of replicas</li>
+            <li>R - successful reads (quorum)</li>
+            <li>W - successful writes (quorum)</li>
+          </ul>
+          <div style="text-align: center;">
+            <br/>
+          </div>
+        </div>
+        <div class="fragment" style="text-align: center;">Riak let's you configure these
+          <span style="letter-spacing: -0.02em;">per-cluster ...</span>
+        </div>
+        <div class="fragment" style="text-align: center;">... per bucket ...</div>
+        <div class="fragment" style="text-align: center;">... and per <b>request!</b>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment" style="text-align: center;">
+          <small>
+            <i>(Effectively tuning between C and A)</i>
+          </small>
+        </div>
+        <div class="fragment">
+          <img src="img/borat-high-five.jpg" style="margin-top: -250px; height: 300px; line-height: 1.2em; letter-spacing: -0.02em;">
+        </div>
+        </section>
+
+        <section>
+        <h2>A Crass Comparison</h2>
+        <div>
+          <br/>
+        </div>
+        <div style="text-align: center;">MS SQL on Azure</div>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>N = 3</li>
+            <li>W = 3</li>
+            <li>R = 1</li>
+          </ul>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div style="text-align: center;"><i>No tunability</i></div>
+        </section>
+
+        <section>
+        <h2>How does Riak Store Data?</h2>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">"The Ring" - a key space of size <b>2<sup>160</sup></b>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Key space divided into partitions</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Partitions spread across cluster</div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Bucket + Key hashed onto this key space</div>
+        </section>
+
+        <section>
+        <h2>"The Ring"</h2>
+        <div>
+          <img height="70%" src="img/riak-ring.png">
+          <br/>
+          <small>Image courtesy of Basho's Documentation</small>
+        </div>
+        </section>
+
+        <section>
+        <h2>Writing Data</h2>
+        <div>
+          <img height="70%" src="img/riak-data-distribution.png">
+          <br/>
+          <small>Image courtesy of Basho's Documentation</small>
+        </div>
+        </section>
+
+        <section>
+        <h2>More Riak Buzzwords</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>Consistent Hashing</li>
+            <li class="fragment">Vector Clocks</li>
+            <li class="fragment">Hinted Handoff</li>
+            <li class="fragment">Read Repair</li>
+            <li class="fragment"><strong>**ALL NEW**</strong> Active Anti-entropy (h/t <a href="https://twitter.com/jtuple">@jtuple</a>)</li>
+          </ul>
+        </div>
+        <div>
+          <br/>
+        </div>
+        </section>
+        </section>
+
+        <section>
+        <section>
+        <h2>Talking to Riak</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>HTTP REST API
+              <ul>
+                <li class="fragment">via <a href="https://github.com/basho/webmachine">Webmachine</a></li>
+                <li class="fragment">Yes, it's a webserver too!</li>
+              </ul>
+            </li>
+            <li class="fragment">Protocol Buffers</li>
+            <li class="fragment">Language-specific drivers
+              <ul>
+                <li class="fragment"><strong>Supported</strong>: Erlang, Java,<br/>PHP, Python, Ruby</li>
+                <li class="fragment"><strong>Community</strong>: C, C++, Clojure,<br/>Go, Haskell, .NET.. more!</li>
+            </li>
+          </ul>
+        </div>
+        </section>
+
+        <section data-state="soothe">
+        <h2>DEMO</h2>
+        <div>
+          <br/>
+        </div>
+        <div><h3>Riak via HTTP</h3></div>
+        </section>
+        </section>
+
+        <section>
+        <section>
+        <h2>Riak and .NET</h2>
+        <div>
+          <br/>
+        </div>
+        <div><h3>CorrugatedIron!</h3></div>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">The only actively maintained .NET client</li>
+            <li class="fragment">C#, .NET 4, Mono (Sorry, no F# ... yet?)</li>
+            <li class="fragment">Uses <strong>Json.NET</strong> and <strong>protobuf-net</strong></li>
+            <li class="fragment">Approaching v1.3</li>
+          </ul>
+        </div>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment" style="text-align: center;">
+            <pre style="width: 600px"><code>
+  PM> Install-Package CorrugatedIron 
+
+</code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>CorrugatedIron Co-author</h2>
+        <div>
+          <br/>
+        </div>
+        <div style="text-align: center;">
+          <img width="300" src="img/Jeremiah_Profile_Small.jpg"/><br/>
+          <a href="https://twitter.com/peschkaj">@peschkaj</a><br/>
+          <a href="http://www.brentozar.com/">Brent Ozar Unlimited</a>
+        </div>
+        </section>
+
+        <section>
+        <h2>CorrugatedIron Features</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">Cluster, Proxy and On-the-fly connections</li>
+            <li class="fragment">Abstracts HTTP / PBC</li>
+            <li class="fragment">Built-in retry on failure</li>
+            <li class="fragment">All the bells'n'whistles</li>
+          </ul>
+        </div>
+        </section>
+
+        <section>
+        <h2>CI for Session State</h2>
+        <div>
+          <br/>
+        </div>
+        <div><a href="https://github.com/DistributedNonsense/CorrugatedIron.SessionState">CorrugatedIron.SessionState</a></div>
+        <div>
+          <br/>
+        </div>
+        <div>Requires 2i and hence LevelDB</div>
+        <div>
+          <br/>
+        </div>
+        <div>"quirky" install because ... Erlang!</div>
+        </section>
+
+        <section data-state="soothe">
+        <h2>DEMO - sort of</h2>
+        <div>
+          <br/>
+        </div>
+        <div><h3>ASP.NET MVC with Riak</h3></div>
+        <div>
+          <br/>
+        </div>
+        <div><small>(more of a "let's look at code")</small></div>
+        </section>
+        </section>
+
+        <section>
+        <section>
+        <h2>Riak on Azure</h2>
+        <div>
+          <br/>
+        </div>
+        </section>
+        </section>
+
+        <section>
+        <section>
+        <h2>In Conclusion</h2>
+        <div class="fragment">
+          <img src="img/3tosq0.jpg" height="70%">
+        </div>
+        </section>
+
+        <section>
+        <h1>Questions?</h1>
+        </section>
+
+        <section>
+        <h2>Done!</h2>
+        <div>
+          <img src="img/basho-riak.jpg"/>
+          <br/>
+        </div>
+        <div>You know you want to!</div>
+        </section>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+        // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
