@@ -98,6 +98,19 @@
         <div style="text-align: right;">... suggest you use Riak for ALL THA THINGZ&nbsp;</div>
         </section>
         <section>
+        <h2>What's out of scope</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>Riak Search</li>
+            <li>Riak CS</li>
+            <li>Riak Enterprise</li>
+          </ul>
+        </div>
+        </section>
+        <section>
         <h2>Get Comfy!</h2>
         <div>
           <br/>
@@ -180,13 +193,14 @@
 
         </section>
         <section>
-        <h2>What you're thinking..</h2>
-        <div>
+        <h2>I know what you're thinking..</h2>
+        <div class="fragment">
           <img src="img/3tnwjv.jpg" height="80%">
           <br/>
         </div>
         </section>
         </section>
+
         <section>
         <section>
         <h2>CAP Summarised</h2>
@@ -254,14 +268,7 @@
         <section>
 
         <section>
-        <h2>Operating Riak</h2>
-        <div>
-          <br/>
-        </div>
-        <div>
-          Remember: Riak is <strong>clustered</strong><br/>
-          Clusters are <em>hard</em>
-        </div>
+        <h2>Riak's Roots</h2>
         <div>
           <br/>
         </div>
@@ -276,7 +283,7 @@
           <br/>
         </div>
         <div style="text-align: center;" class="fragment">
-          <div>Riak is</div>
+          <div>The result? Riak is</div>
           <div class="fragment grow">
             <b>Operationally Boring</b>
           </div>
@@ -302,6 +309,10 @@
 
         <section>
         <h2>Managing Riak</h2>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">Command line!</div>
         <div>
           <br/>
         </div>
@@ -570,6 +581,17 @@
         </section>
 
         <section>
+        <h2>Who uses it?</h2>
+        <div>
+          <br/>
+        </div>
+        <div class="fragment">
+          <h3>We aren't sure!</h3>
+          <p>But <em>someone</em> is</p>
+        </div>
+        </section>
+
+        <section>
         <h2>CorrugatedIron Features</h2>
         <div>
           <br/>
@@ -580,6 +602,214 @@
             <li class="fragment">Abstracts HTTP / PBC</li>
             <li class="fragment">Built-in retry on failure</li>
             <li class="fragment">All the bells'n'whistles</li>
+          </ul>
+        </div>
+        </section>
+
+        <section>
+        <h2>CorrugatedIron Cluster Config</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  &lt;section name="riakConfig"
+      type="CorrugatedIron.Config.RiakClusterConfiguration,
+      CorrugatedIron" /> 
+          </code></pre>
+        </div>
+        <div>
+          <pre><code>
+  &lt;riakConfig nodePollTime="5000" defaultRetryWaitTime="200"
+      defaultRetryCount="3">
+          &lt;nodes>
+              &lt;node name="dev1" hostAddress="some-host-1"
+                    pbcPort="10017" restScheme="http" restPort="10018"
+                    poolSize="20" />
+              &lt;node name="dev2" hostAddress="some-host-2"
+                    pbcPort="10017" restScheme="http" restPort="10018"
+                    poolSize="20" />
+              &lt;!-- Add all your nodes here -->
+          &lt;/nodes>
+  &lt;/riakConfig>
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>CorrugatedIron Proxy Config</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  &lt;section name="riakProxyConfig"
+      type="CorrugatedIron.Config.RiakExternalLoadBalancerConfiguration,
+      CorrugatedIron" /> 
+          </code></pre>
+        </div>
+        <div>
+          <pre><code>
+  &lt;riakProxyConfig nodePollTime="5000" defaultRetryWaitTime="200"
+      defaultRetryCount="3">
+          &lt;target name="dev1" hostAddress="some-host-1"
+                pbcPort="10017" restScheme="http" restPort="10018"
+                poolSize="20" />
+                &lt;!-- Set poolSize to 0 for "on the fly" -->
+  &lt;/riakProxyConfig>
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>CI Basics</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  var cluster = RiakCluster.FromConfig("riakConfig");
+  var proxy = RiakExternalLoadBalancer.FromConfig("riakProxyConfig");
+  // cluster and proxy are instances of IRiakEndPoint
+
+  // clients are cheap to create
+  var client = cluster.CreateClient();
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>Sample IoC with Autofac</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  // assuming IoC is your kinda thing!
+  var builder = new ContainerBuilder();
+
+  // register the endpoint (could be cluster or proxy)
+  builder.RegisterInstance(cluster).As&lt;IRiakEndPoint>();
+
+  // register the client creation mechanism
+  builder.Register(c => c.Resolve&lt;IRiakEndPoint>().CreateClient())
+      .As&lt;IRiakClient>();
+
+  var container = builder.Build();
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>Store / Retrieve</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  var textObj = new RiakObject("bucket", "key", "This is some text",
+                RiakConstants.ContentTypes.TextPlain);
+
+  // store it in Riak with default settings
+  var putResult = client.Put(textObj);
+
+  // load it from Riak
+  var getResult = client.Get("bucket", "key");
+  var loadedObj = getResult.Value;
+
+  // default json serialisation
+  var c = new MyClass();
+  var jsonObj = new RiakObject("otherbucket", "otherkey", c);
+  client.Put(c);
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>Links + 2i</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  jsonObj.LinkTo("bucket", "key");
+  jsonObj.LinkTo(someOtherInstance);
+
+  jsonObj.BinIndex("LastModified").Set(DateTime.Now.ToString());
+  jsonObj.IntIndex("Years").Add(1978, 1982).Remove(1999);
+
+  client.Put(jsonObj);
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>Direct 2i Query</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  var result = client.IndexGet("bucket", "Year", 1978);
+  var keys = result.Value;
+  // You now have a list of keys
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>Map / Reduce</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  var mr = new RiakMapReduceQuery()
+          .Inputs(RiakIndex.Range(Bucket, "age", 27, 30))
+          .MapJs(m => m.Source(
+              "function(v) {return [Riak.mapValuesJson(v)[0]];}"));
+  var result = client.MapReduce(mr);
+  var jsonBlobs = result.PhaseResults.First().Values;
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>Map / Reduce with Extra Phase</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <pre><code>
+  var mr = new RiakMapReduceQuery()
+          .Inputs(RiakIndex.Range(Bucket, "age", 27, 30))
+          .MapJs(m => m.Source("function(v) {return [1];}")
+              .Keep(false))
+          .ReduceJs(r => r.Name("Riak.reduceSum"));
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+        <h2>Notes on Map / Reduce</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>JavaScript Phases<ul>
+              <li class="fragment">Can be slow</li>
+              <li class="fragment">Ties up a VM instance</li>
+              <li class="fragment">Can't write back to Riak</li>
+              <li class="fragment">Easy</li>
+            </ul></li>
+            <li class="fragment">Erlang Phases<ul>
+              <li class="fragment">Must be installed on the nodes</li>
+              <li class="fragment">Often much quicker</li>
+              <li class="fragment">Not tied to a VM instance</li>
+              <li class="fragment"><em>Can</em> write back to Riak</li>
+              <li class="fragment">... but it's Erlang!</li>
+            </li>
           </ul>
         </div>
         </section>
