@@ -331,46 +331,9 @@
         </div>
         <div><h3>Building a Cluster + Riak Control</h3></div>
         </section>
-
         </section>
 
         <section>
-        <section>
-        <h2>Riak Basics</h2>
-        <div>
-          <br/>
-        </div>
-        <div>
-          <ul>
-            <li class="fragment">Masterless</li>
-            <li class="fragment">Fault tolerant</li>
-            <li class="fragment">Highly Available</li>
-            <li class="fragment">Eventually consistent</li>
-            <li class="fragment">Doesn't lose your data!</li>
-            <li class="fragment">Multiple storage engines</li>
-            <li class="fragment">Written in Erlang ...</li>
-            <li class="fragment">... with some bits in C.</li>
-          </ul>
-        </div>
-        </section>
-        <section>
-        <h2>Riak Basics</h2>
-        <div>
-          <br/>
-        </div>
-        <div>
-          <ul>
-            <li>Values identified by Bucket / Key</li>
-            <li class="fragment">Schemaless</li>
-            <li class="fragment">Store anything</li>
-            <li class="fragment">Links + Link Walking</li>
-            <li class="fragment">Map/Reduce</li>
-            <li class="fragment">Secondary Indexes (LevelDB)</li>
-            <li class="fragment">Pre/Post commit hooks</li>
-            <li class="fragment">Riak Search (Full Text)</li>
-          </ul>
-        </div>
-        </section>
         <section>
         <h2>Based on Dynamo</h2>
         <div>
@@ -387,6 +350,7 @@
         </div>
         <div>Riak has heritage in Dynamo</div>
         </section>
+
         <section>
         <h2>Dynamo Basics</h2>
         <div>
@@ -447,6 +411,69 @@
         <div style="text-align: center;"><i>No tunability</i></div>
         </section>
 
+        <section>
+        <h2>Riak Basics</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">Masterless</li>
+            <li class="fragment">Fault tolerant</li>
+            <li class="fragment">Highly Available</li>
+            <li class="fragment">Eventually consistent</li>
+            <li class="fragment">Doesn't lose your data!</li>
+            <li class="fragment">Multiple storage engines</li>
+            <li class="fragment">Written in Erlang ...</li>
+            <li class="fragment">... with some bits in C.</li>
+          </ul>
+        </div>
+        </section>
+
+        <section>
+        <h2>Riak Basics</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li>Values identified by Bucket / Key</li>
+            <li class="fragment">Schemaless</li>
+            <li class="fragment">Store anything</li>
+            <li class="fragment">Links + Link Walking</li>
+            <li class="fragment">Map/Reduce <span class="fragment roll-in"><em>(more on this in a moment)</em></span></li>
+            <li class="fragment">Secondary Indexes (LevelDB)</li>
+            <li class="fragment">Pre/Post commit hooks</li>
+            <li class="fragment">Riak Search (Full Text)</li>
+          </ul>
+        </div>
+        </section>
+
+        <section>
+        <h2>Notes on Map / Reduce</h2>
+        <div>
+          <br/>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">JavaScript Phases<ul>
+              <li class="fragment" data-fragment-index="10">Can be slow</li>
+              <li class="fragment" data-fragment-index="20">Ties up a VM instance</li>
+              <li class="fragment" data-fragment-index="30">Can't write back to Riak</li>
+              <li class="fragment" data-fragment-index="40">Easy</li>
+            </ul></li>
+            <li class="fragment">Erlang Phases<ul>
+              <li class="fragment" data-fragment-index="50">Must be installed on the nodes</li>
+              <li class="fragment" data-fragment-index="60">Often much quicker</li>
+              <li class="fragment" data-fragment-index="70">Not tied to a VM instance</li>
+              <li class="fragment" data-fragment-index="80"><em>Can</em> write back to Riak</li>
+              <li class="fragment" data-fragment-index="90">... but it's Erlang!</li>
+            </li>
+          </ul>
+        </div>
+        </section>
+
+        </section>
         <section>
         <h2>How does Riak Store Data?</h2>
         <div>
@@ -787,30 +814,6 @@
               .Keep(false))
           .ReduceJs(r => r.Name("Riak.reduceSum"));
           </code></pre>
-        </div>
-        </section>
-
-        <section>
-        <h2>Notes on Map / Reduce</h2>
-        <div>
-          <br/>
-        </div>
-        <div>
-          <ul>
-            <li>JavaScript Phases<ul>
-              <li class="fragment">Can be slow</li>
-              <li class="fragment">Ties up a VM instance</li>
-              <li class="fragment">Can't write back to Riak</li>
-              <li class="fragment">Easy</li>
-            </ul></li>
-            <li class="fragment">Erlang Phases<ul>
-              <li class="fragment">Must be installed on the nodes</li>
-              <li class="fragment">Often much quicker</li>
-              <li class="fragment">Not tied to a VM instance</li>
-              <li class="fragment"><em>Can</em> write back to Riak</li>
-              <li class="fragment">... but it's Erlang!</li>
-            </li>
-          </ul>
         </div>
         </section>
 
