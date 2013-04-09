@@ -1,0 +1,6 @@
+{
+  "inputs":"people",
+  "query":[
+    {"map":{"language":"javascript","source":"function(v) { var data = Riak.mapValuesJson(v)[0]; if (data.likes.indexOf('Riak') >= 0){ return [v]; } return []; }","keep":true}}
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "inputs":{"bucket":"people","index":"gender_bin","key":"male"},
+  "query":[
+    {"map":{"language":"javascript","source":"function(v) { var data = Riak.mapValuesJson(v)[0]; return [data.name];}",
+             "keep":false}},
+    {"reduce":{"language":"javascript","source":"function(vals) { if(vals.length===0){return[];} return vals.length == 1 ? vals : vals.reduce(function(l,r){return[l,r];});}"}}
+  ]
+}
+

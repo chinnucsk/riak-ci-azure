@@ -1,0 +1,13 @@
+{
+  "name":"OJ Reeves",
+  "email":"oj@buffered.io",
+  "hobbies":["classical guitar","coding","chinese medicine"],
+  "married":true,
+  "kids":[
+    {"name":"Marley","age":5},
+    {"name":"Jasper","age":3}
+  ],
+  "likes":["Riak","Erlang","Trolling"],
+  "dislikes":["Mongo","JavaScript","Trolls"]
+}
+

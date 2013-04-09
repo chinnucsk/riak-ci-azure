@@ -1,0 +1,15 @@
+{
+  "name":"Amy Reeves",
+  "email":"private@noneya.biz",
+  "hobbies":["annoying OJ"],
+  "married":true,
+  "kids":[
+    {"name":"Marley","age":5},
+    {"name":"Jasper","age":3},
+    {"name":"OJ","age":34}
+  ],
+  "likes":["Peace","Quiet","WPA2-PSK"],
+  "dislikes":["Carnies","OJ"]
+}
+
+

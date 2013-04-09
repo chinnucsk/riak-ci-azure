@@ -1,0 +1,9 @@
+{
+  "inputs":"people",
+  "query":[
+    {"map":{"language":"javascript","source":"function(v,k,a) { var data = Riak.mapValuesJson(v)[0]; if (data.kids.length > arg){ return [1]; } return [0]; }",
+             "keep":false,"arg":2}},
+    {"reduce":{"language":"javascript","name":"Riak.reduceSum"}}
+  ]
+}
+
